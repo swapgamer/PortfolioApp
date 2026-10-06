@@ -28,9 +28,12 @@ cross-region latency between App Service and SQL is negligible.
 
 **Already configured in the repo**:
 - `UI/src/environments/environment.prod.ts` → points at the real API URL above
-- `UI/public/_redirects` → SPA routing fallback (harmless if unused; Azure Static Web Apps
-  handles SPA fallback natively via its own routing, so this file matters only if you ever
-  switch to Cloudflare Pages)
+- `UI/public/staticwebapp.config.json` → `navigationFallback` rewrite to `/index.html`. This
+  is **required** for Azure Static Web Apps — it does *not* fall back to `index.html`
+  automatically for an Angular SPA; direct navigation to e.g. `/projects` 404s without this
+  file. Found this the hard way during the first live verification pass.
+- `UI/public/_redirects` → the Cloudflare Pages equivalent of the above, kept only in case of a
+  future switch back to Cloudflare; Azure ignores this file entirely.
 
 **Not yet done** (needs your GitHub login — see steps below):
 1. Push this repo to GitHub
