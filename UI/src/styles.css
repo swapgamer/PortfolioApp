@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --vsc-bg: #1e1e1e;
+  --vsc-panel: #252526;
+  --vsc-border: #2d2d2d;
+  --vsc-text: #d4d4d4;
+  --vsc-text-dim: #9aa0a6;
+  --vsc-accent: #4fc3f7;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--vsc-bg);
+  color: var(--vsc-text);
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}

@@ -1,0 +1,23 @@
+<aside
+  class="sm:flex sm:flex-col w-56 shrink-0 bg-[var(--vsc-panel)] border-r border-[var(--vsc-border)] text-sm overflow-y-auto"
+  [class.hidden]="!open()"
+  [class.flex]="open()"
+  [class.flex-col]="open()"
+>
+  <div class="px-3 py-2 text-xs uppercase tracking-wide text-gray-500">Portfolio</div>
+  <ul>
+    @for (item of navItems(); track item.path) {
+      <li>
+        <a
+          [routerLink]="item.path ? ['/', item.path] : ['/']"
+          routerLinkActive="text-[var(--vsc-accent)] bg-[var(--vsc-border)]"
+          [routerLinkActiveOptions]="{ exact: item.path === '' }"
+          class="flex items-center gap-2 px-4 py-1.5 text-gray-300 hover:bg-[var(--vsc-border)] cursor-pointer"
+        >
+          <span>{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</aside>

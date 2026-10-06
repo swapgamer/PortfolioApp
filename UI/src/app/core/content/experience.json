@@ -1,0 +1,10 @@
+[
+  {
+    "company": "Placeholder Company",
+    "role": ".NET Developer",
+    "startDate": "2023-06-01",
+    "endDate": null,
+    "description": "Building web applications on the .NET stack -- ASP.NET Core Web APIs backed by SQL Server, with Angular front ends. Responsibilities span database schema design, REST API development, and implementing business logic in C#.",
+    "displayOrder": 10
+  }
+]

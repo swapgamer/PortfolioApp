@@ -1,0 +1,33 @@
+<section class="p-6 sm:p-10 max-w-3xl">
+  <h1 class="text-3xl sm:text-4xl font-bold">
+    Hello 👋, I'm a .NET Developer
+  </h1>
+  <p class="mt-3 text-base sm:text-lg text-[var(--vsc-text-dim)]">
+    3 Years Building Web Applications | .NET, C#, SQL Server &amp; Angular
+  </p>
+
+  <div class="mt-6 flex flex-wrap gap-3">
+    <a
+      routerLink="/about"
+      class="px-4 py-2 rounded-md bg-[var(--vsc-accent)] text-[#0b1f27] font-medium hover:opacity-90"
+    >
+      🔎 Know Me
+    </a>
+    <a
+      routerLink="/experience"
+      class="px-4 py-2 rounded-md border border-[var(--vsc-border)] hover:bg-[var(--vsc-border)]"
+    >
+      🚀 View Work
+    </a>
+  </div>
+
+  <h2 class="mt-10 text-xl font-semibold">What I Bring to the Table</h2>
+  <div class="mt-4 grid gap-4 sm:grid-cols-2">
+    @for (item of highlights; track item.text) {
+      <div class="rounded-lg border border-[var(--vsc-border)] bg-[var(--vsc-panel)] p-4">
+        <span class="text-2xl">{{ item.icon }}</span>
+        <p class="mt-2 text-sm text-[var(--vsc-text-dim)]">{{ item.text }}</p>
+      </div>
+    }
+  </div>
+</section>

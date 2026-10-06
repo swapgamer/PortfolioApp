@@ -1,0 +1,11 @@
+<div class="h-screen flex flex-col bg-[var(--vsc-bg)] overflow-hidden">
+  <app-title-bar (toggleSidebar)="toggleSidebar()" />
+  <app-tab-bar [navItems]="navItems" />
+  <div class="flex flex-1 min-h-0">
+    <app-sidebar [navItems]="navItems" [open]="sidebarOpen()" />
+    <main class="flex-1 overflow-y-auto">
+      <router-outlet />
+    </main>
+  </div>
+  <app-ask-ai />
+</div>

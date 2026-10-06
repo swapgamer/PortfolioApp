@@ -1,0 +1,17 @@
+<section class="p-6 sm:p-10 max-w-2xl">
+  <h1 class="text-2xl sm:text-3xl font-bold">Experience</h1>
+
+  <ol class="mt-6 space-y-6 border-l border-[var(--vsc-border)] pl-6">
+    @for (entry of entries; track entry.company + entry.role) {
+      <li class="relative">
+        <span class="absolute -left-[29px] top-1.5 w-2.5 h-2.5 rounded-full bg-[var(--vsc-accent)]"></span>
+        <h2 class="font-semibold">{{ entry.role }} · {{ entry.company }}</h2>
+        <p class="text-sm text-[var(--vsc-text-dim)]">
+          {{ entry.startDate | date: 'MMM yyyy' }} —
+          {{ entry.endDate ? (entry.endDate | date: 'MMM yyyy') : 'Present' }}
+        </p>
+        <p class="mt-2 text-sm text-[var(--vsc-text)]">{{ entry.description }}</p>
+      </li>
+    }
+  </ol>
+</section>

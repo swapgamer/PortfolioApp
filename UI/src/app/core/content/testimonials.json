@@ -1,0 +1,14 @@
+[
+  {
+    "authorName": "Placeholder Colleague",
+    "authorTitle": "Senior Engineer",
+    "quote": "Reliable, detail-oriented, and always willing to dig into the root cause of a bug instead of just patching the symptom.",
+    "displayOrder": 10
+  },
+  {
+    "authorName": "Placeholder Manager",
+    "authorTitle": "Engineering Lead",
+    "quote": "Picked up the .NET/Angular stack quickly and became someone the team could hand ambiguous problems to.",
+    "displayOrder": 20
+  }
+]

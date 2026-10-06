@@ -1,0 +1,74 @@
+<section class="p-6 sm:p-10 max-w-xl">
+  <h1 class="text-2xl sm:text-3xl font-bold">Contact</h1>
+  <p class="mt-2 text-sm text-[var(--vsc-text-dim)]">Send a message and I'll get back to you.</p>
+
+  @if (success()) {
+    <div class="mt-4 rounded-md border border-green-700 bg-green-900/30 px-4 py-3 text-sm text-green-300">
+      Thanks! Your message has been sent.
+    </div>
+  }
+  @if (error()) {
+    <div class="mt-4 rounded-md border border-red-700 bg-red-900/30 px-4 py-3 text-sm text-red-300">
+      {{ error() }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4">
+    <div>
+      <label for="name" class="block text-sm mb-1">Name</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="w-full rounded-md bg-[var(--vsc-panel)] border border-[var(--vsc-border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--vsc-accent)]"
+      />
+      @if (form.controls.name.invalid && form.controls.name.touched) {
+        <p class="mt-1 text-xs text-red-400">
+          @if (form.controls.name.errors?.['required']) { Name is required. }
+          @if (form.controls.name.errors?.['maxlength']) { Name is too long. }
+        </p>
+      }
+    </div>
+
+    <div>
+      <label for="email" class="block text-sm mb-1">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="w-full rounded-md bg-[var(--vsc-panel)] border border-[var(--vsc-border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--vsc-accent)]"
+      />
+      @if (form.controls.email.invalid && form.controls.email.touched) {
+        <p class="mt-1 text-xs text-red-400">
+          @if (form.controls.email.errors?.['required']) { Email is required. }
+          @if (form.controls.email.errors?.['email']) { Enter a valid email address. }
+        </p>
+      }
+    </div>
+
+    <div>
+      <label for="message" class="block text-sm mb-1">Message</label>
+      <textarea
+        id="message"
+        rows="5"
+        formControlName="message"
+        class="w-full rounded-md bg-[var(--vsc-panel)] border border-[var(--vsc-border)] px-3 py-2 text-sm focus:outline-none focus:border-[var(--vsc-accent)]"
+      ></textarea>
+      @if (form.controls.message.invalid && form.controls.message.touched) {
+        <p class="mt-1 text-xs text-red-400">
+          @if (form.controls.message.errors?.['required']) { Message is required. }
+          @if (form.controls.message.errors?.['minlength']) { Message must be at least 10 characters. }
+          @if (form.controls.message.errors?.['maxlength']) { Message is too long. }
+        </p>
+      }
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="submitting()"
+      class="px-4 py-2 rounded-md bg-[var(--vsc-accent)] text-[#0b1f27] font-medium hover:opacity-90 disabled:opacity-50"
+    >
+      {{ submitting() ? 'Sending…' : 'Send Message' }}
+    </button>
+  </form>
+</section>

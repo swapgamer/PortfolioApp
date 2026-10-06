@@ -1,0 +1,20 @@
+# This repo root contains more than just the portfolio project -- these are
+# unrelated personal content living in the same folder and must never be committed.
+/Draft/
+/reports/
+/research_notes/
+
+# .NET (API/)
+bin/
+obj/
+*.user
+.vs/
+
+# Angular build output (UI/ already has its own .gitignore for Angular-specific
+# patterns; these cover the root-level case just in case)
+dist/
+node_modules/
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db

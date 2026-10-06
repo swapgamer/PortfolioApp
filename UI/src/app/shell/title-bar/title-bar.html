@@ -1,0 +1,20 @@
+<header
+  class="h-8 flex items-center justify-between px-3 border-b border-[var(--vsc-border)] bg-[var(--vsc-panel)] text-xs sm:text-sm text-gray-300"
+>
+  <div class="flex items-center gap-2 min-w-0">
+    <button
+      type="button"
+      class="sm:hidden shrink-0 px-1 text-gray-300 hover:text-white"
+      aria-label="Toggle sidebar"
+      (click)="toggleSidebar.emit()"
+    >
+      ☰
+    </button>
+    <span class="truncate">I'm a .NET developer — let's code something amazing!</span>
+  </div>
+  <div class="flex items-center gap-1.5 shrink-0">
+    <span class="w-3 h-3 rounded-full bg-[#ff5f56]"></span>
+    <span class="w-3 h-3 rounded-full bg-[#ffbd2e]"></span>
+    <span class="w-3 h-3 rounded-full bg-[#27c93f]"></span>
+  </div>
+</header>
