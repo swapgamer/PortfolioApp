@@ -33,9 +33,14 @@ builder.Services.AddHttpClient<ILlmClient, OpenAiClient>((sp, client) =>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 });
 
-// TODO: replace the localhost origin with the real production domain once deployed (Docs/02-High-Level-Design.md section 5).
+// Configurable per environment instead of hardcoded, so the production domain can be set via
+// Azure App Service configuration (Cors__AllowedOrigins__0=https://your-domain) without a
+// code change/redeploy. Falls back to the local Angular dev server if unset.
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? new[] { "http://localhost:4200" };
+
 builder.Services.AddCors(o => o.AddPolicy("portfolio", p =>
-    p.WithOrigins("http://localhost:4200")
+    p.WithOrigins(allowedOrigins)
      .AllowAnyHeader()
      .WithMethods("GET", "POST")));
 
@@ -55,6 +60,15 @@ builder.Services.AddRateLimiter(options =>
 });
 
 var app = builder.Build();
+
+// Applies any pending EF Core migrations on startup -- means deployment never needs a
+// separate `dotnet ef database update` step/secret in CI; the app brings its own schema
+// up to date against whatever ConnectionStrings:DefaultConnection points to. Safe to run
+// every startup since migrations are idempotent (only pending ones are applied).
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

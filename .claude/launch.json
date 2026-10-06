@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio-ui",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "cd UI && ng serve"],
+      "port": 4200
+    }
+  ]
+}
