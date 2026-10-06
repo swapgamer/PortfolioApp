@@ -11,17 +11,16 @@ Reference requirements: [01-Requirement-Analysis.md](01-Requirement-Analysis.md)
                                    └───────────▲──────────────┘
                                                │ HTTPS (client-side fetch)
 ┌───────────────┐   static files   ┌───────────┴───────────┐
-│  CDN / Edge     │◄────────────── │  Angular SPA (build)   │
-│  Static Hosting │   deploy       │  - VS Code shell UI    │
-│ (Cloudflare     │                │  - Pages/components    │
-│  Pages / Azure  │───────────────►│  - Ask AI widget        │
-│  Static Web Apps)│  serves to    └───────────┬────────────┘
+│ Azure Static    │◄────────────── │  Angular SPA (build)   │
+│ Web Apps (Free) │   deploy       │  - VS Code shell UI    │
+│                 │                │  - Pages/components    │
+│                 │───────────────►│  - Ask AI widget        │
+│                 │  serves to    └───────────┬────────────┘
 └───────────────┘   browser                    │
                                                  │ HTTPS (fetch)
                                     ┌────────────┴─────────────┐
                                     │  ASP.NET Core Web API      │
-                                    │  (Azure App Service /      │
-                                    │   Azure Container Apps)    │
+                                    │  (Azure App Service, F1)   │
                                     │  - AskAiController          │
                                     │  - ContactController        │
                                     │  - RagService                │
@@ -61,9 +60,9 @@ Reference requirements: [01-Requirement-Analysis.md](01-Requirement-Analysis.md)
 - **Why a custom API instead of n8n** (which the reference site uses): the owner's stack
   strength is .NET, so a minimal API is both cheaper to run than a workflow tool and doubles
   as a portfolio artifact ("I built the AI feature's backend myself").
-- Hosting: Azure App Service (Free/Basic tier) or Azure Container Apps (scale-to-zero,
-  cheaper for spiky/low traffic). Final pick made in Implementation Plan based on actual
-  free-tier limits at build time.
+- Hosting: Azure App Service, F1 (Free) tier — see Docs/06-Deployment-Guide.md for the live
+  resource (`portfolio-api-swapnamoy`, East Asia — `eastus`/`eastus2` had zero F1 quota on this
+  subscription at creation time).
 - Responsibilities:
   - `POST /api/ask-ai` — retrieval-augmented answer generation (see §3.2).
   - `POST /api/contact` — validate, persist, send email notification.
@@ -129,13 +128,19 @@ Reference requirements: [01-Requirement-Analysis.md](01-Requirement-Analysis.md)
 
 ## 4. Hosting & deployment topology
 
+**Finalized** (Docs/06-Deployment-Guide.md has the live resource names/URLs): all-Azure, all
+free tier — owner chose to keep the whole stack on one platform rather than split across
+Cloudflare + Azure.
+
 | Layer | Choice | Rationale |
 |---|---|---|
-| Frontend static hosting | Cloudflare Pages *or* Azure Static Web Apps | Both have generous free tiers; Azure SWA integrates well if the owner wants an all-Azure stack for the portfolio story. |
-| Backend API hosting | Azure App Service (Free/Basic) or Azure Container Apps | .NET-native, matches owner's stack; Container Apps scale-to-zero is cheaper if traffic is low/spiky. |
-| Database | Azure SQL Database (Free offer / Basic tier) | Matches SSMS/SQL Server experience directly. |
-| DNS/CDN | Cloudflare (proxy + DNS) | Free, fast, matches pattern seen on the reference site. |
-| CI/CD | GitHub Actions | Build+deploy Angular on push to `main`; build+deploy API separately. |
+| Frontend static hosting | Azure Static Web Apps (Free) | All-Azure stack end to end; native GitHub Actions integration generates the deploy workflow; free tier SPA routing handled natively. |
+| Backend API hosting | Azure App Service (F1/Free) | .NET-native, matches owner's stack directly. |
+| Database | Azure SQL Database, Free limit (serverless, auto-pause on exhaustion) | Matches SSMS/SQL Server experience directly; auto-pause guarantees it never bills even if the monthly free compute is exhausted. |
+| CI/CD | GitHub Actions | One workflow per layer, each path-filtered so a UI-only change doesn't redeploy the API and vice versa. |
+
+Note: Cloudflare Pages was the original frontend candidate (see the alternatives this replaced,
+kept below for context) — superseded once the owner decided to keep everything on Azure.
 
 ## 5. Security model
 
